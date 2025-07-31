@@ -24,4 +24,18 @@ public class OrderItem extends BaseEntity {
 
     @Column(nullable = false)
     private Integer price;
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Integer getSubtotal() {
+        return price * quantity;
+    }
+
+    public OrderItem(Product product, Integer quantity) {
+        this.product = product;
+        this.quantity = quantity;
+        this.price = product.getPrice();
+    }
 }

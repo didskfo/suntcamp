@@ -22,4 +22,10 @@ public class Product extends BaseEntity {
 
     @Column(nullable = false)
     private Integer stock;
+
+    private String photoUrl;
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
 }
