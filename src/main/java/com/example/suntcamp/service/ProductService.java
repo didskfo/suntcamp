@@ -1,5 +1,6 @@
 package com.example.suntcamp.service;
 
+import com.example.suntcamp.dto.CategoryDto;
 import com.example.suntcamp.dto.ProductDto;
 import com.example.suntcamp.dto.ResponseDto;
 import com.example.suntcamp.repository.ProductRepository;
@@ -23,6 +24,11 @@ public class ProductService {
                         .price(p.getPrice())
                         .stock(p.getStock())
                         .photoUrl(p.getPhotoUrl())
+                        .description(p.getDescription())
+                        .category(CategoryDto.builder()
+                                .id(p.getCategory().getId())
+                                .name(p.getCategory().getName())
+                                .build())
                         .build()
                 ).toList();
         return ResponseDto.success(products);

@@ -21,7 +21,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    @Operation(summary = "상품 조회하기")
+    @Operation(summary = "상품 목록 조회하기")
     public ResponseDto<List<ProductDto>> findAll() {
         return productService.getAllProducts();
     }

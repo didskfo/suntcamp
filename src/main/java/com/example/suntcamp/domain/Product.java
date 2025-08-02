@@ -1,8 +1,6 @@
 package com.example.suntcamp.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +21,13 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private Integer stock;
 
+    private String description;
+
     private String photoUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public void setStock(Integer stock) {
         this.stock = stock;
