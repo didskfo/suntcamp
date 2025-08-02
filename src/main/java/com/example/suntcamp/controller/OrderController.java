@@ -1,7 +1,6 @@
 package com.example.suntcamp.controller;
 
 import com.example.suntcamp.dto.OrderRequestDto;
-import com.example.suntcamp.dto.OrderResponseDto;
 import com.example.suntcamp.dto.ResponseDto;
 import com.example.suntcamp.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +20,7 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "주문하기")
-    public ResponseDto<OrderResponseDto> order(@RequestBody OrderRequestDto orderRequestDto) {
+    public ResponseDto<String> order(@RequestBody OrderRequestDto orderRequestDto) {
         return orderService.createOrder(orderRequestDto);
     }
 }
