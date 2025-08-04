@@ -4,6 +4,8 @@ import com.example.suntcamp.domain.Order;
 import com.example.suntcamp.domain.OrderItem;
 import com.example.suntcamp.domain.Product;
 import com.example.suntcamp.dto.*;
+import com.example.suntcamp.exception.OutOfStockException;
+import com.example.suntcamp.exception.ProductNotFoundException;
 import com.example.suntcamp.repository.OrderRepository;
 import com.example.suntcamp.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +26,10 @@ public class OrderService {
         Order order = new Order();
         List<ProductDto> orderedProducts = orderRequest.getItems().stream().map(item -> {
                     Product product = productRepository.findById(item.getProductId())
-                            .orElseThrow(() -> new RuntimeException("Product not found"));
+                            .orElseThrow(() -> new ProductNotFoundException(item.getProductId()));
 
                     if (product.getStock() < item.getQuantity()) {
-                        throw new RuntimeException("Stock exceeds quantity");
+                        throw new OutOfStockException(product.getName());
                     }
 
                     product.setStock(product.getStock() - item.getQuantity());
