@@ -31,7 +31,6 @@ public class OrderService {
                     }
 
                     product.setStock(product.getStock() - item.getQuantity());
-                    productRepository.save(product);
 
                     OrderItem orderItem = new OrderItem(product, item.getQuantity());
                     order.addItem(orderItem);
