@@ -3,10 +3,7 @@ package com.example.suntcamp.service;
 import com.example.suntcamp.domain.Order;
 import com.example.suntcamp.domain.OrderItem;
 import com.example.suntcamp.domain.Product;
-import com.example.suntcamp.dto.OrderRequestDto;
-import com.example.suntcamp.dto.OrderResponseDto;
-import com.example.suntcamp.dto.ProductDto;
-import com.example.suntcamp.dto.ResponseDto;
+import com.example.suntcamp.dto.*;
 import com.example.suntcamp.repository.OrderRepository;
 import com.example.suntcamp.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +22,7 @@ public class OrderService {
     @Transactional
     public ResponseDto<OrderResponseDto> createOrder(OrderRequestDto orderRequest) {
         Order order = new Order();
-        List<OrderItem> savedItems = orderRequest.getItems().stream().map(item -> {
+        List<ProductDto> orderedProducts = orderRequest.getItems().stream().map(item -> {
                     Product product = productRepository.findById(item.getProductId())
                             .orElseThrow(() -> new RuntimeException("Product not found"));
 
@@ -38,22 +35,22 @@ public class OrderService {
 
                     OrderItem orderItem = new OrderItem(product, item.getQuantity());
                     order.addItem(orderItem);
-                    return orderItem;
+                    return ProductDto.builder()
+                            .id(product.getId())
+                            .name(product.getName())
+                            .price(product.getPrice())
+                            .stock(product.getStock())
+                            .photoUrl(product.getPhotoUrl())
+                            .description(product.getDescription())
+                            .category(CategoryDto.builder()
+                                    .id(product.getCategory().getId())
+                                    .name(product.getCategory().getName())
+                                    .build())
+                            .build();
                 })
                 .toList();
 
         orderRepository.save(order);
-
-        List<ProductDto> orderedProducts = savedItems.stream()
-                .map(orderItem -> ProductDto.builder()
-                        .id(orderItem.getProduct().getId())
-                        .name(orderItem.getProduct().getName())
-                        .price(orderItem.getPrice())
-                        .stock(orderItem.getProduct().getStock())
-                        .photoUrl(orderItem.getProduct().getPhotoUrl())
-                        .build()
-                )
-                .toList();
 
         OrderResponseDto responseDto = OrderResponseDto.builder()
                 .orderId(order.getId())
