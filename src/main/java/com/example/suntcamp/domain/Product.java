@@ -25,4 +25,15 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private Integer stock;
 
+    private String description;
+
+    private String photoUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
 }

@@ -19,6 +19,22 @@ public class Order extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime orderDate = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
+
+    public void addItem(OrderItem item) {
+        items.add(item);
+        item.setOrder(this);
+    }
+
+    public void removeItem(OrderItem item) {
+        items.remove(item);
+        item.setOrder(null);
+    }
+
+    public Integer getTotalAmount() {
+        return items.stream()
+                .mapToInt(OrderItem::getSubtotal)
+                .sum();
+    }
 }
