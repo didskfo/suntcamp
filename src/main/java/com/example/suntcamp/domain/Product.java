@@ -41,11 +41,11 @@ public class Product extends BaseEntity {
                            String photoUrl,
                            String description,
                            Category category) {
-        this.name        = name;
-        this.price       = price;
-        this.stock       = stock;
-        this.photoUrl    = photoUrl;
-        this.description = description;
-        this.category    = category;
+        if (name != null)        this.name        = name;
+        if (price != null)       this.price       = price;
+        if (stock != null)       this.stock       = stock;
+        if (photoUrl != null)    this.photoUrl    = photoUrl;
+        if (description != null) this.description = description;
+        if (category != null)    this.category    = category;
     }
 }
