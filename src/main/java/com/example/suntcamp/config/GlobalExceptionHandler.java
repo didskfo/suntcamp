@@ -1,6 +1,7 @@
 package com.example.suntcamp.config;
 
 import com.example.suntcamp.dto.ResponseDto;
+import com.example.suntcamp.exception.InvalidCategoryException;
 import com.example.suntcamp.exception.OutOfStockException;
 import com.example.suntcamp.exception.ProductNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(OutOfStockException.class)
     public ResponseEntity<ResponseDto<String>> outOfStock(OutOfStockException e) {
+        return ResponseEntity
+                .badRequest()
+                .body(ResponseDto.error(e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidCategoryException.class)
+    public ResponseEntity<ResponseDto<String>> invalidCategory(InvalidCategoryException e) {
         return ResponseEntity
                 .badRequest()
                 .body(ResponseDto.error(e.getMessage()));

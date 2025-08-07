@@ -2,6 +2,7 @@ package com.example.suntcamp.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "products")
 public class Product extends BaseEntity {
 
@@ -31,5 +33,19 @@ public class Product extends BaseEntity {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public void updateInfo(String name,
+                           Integer price,
+                           Integer stock,
+                           String photoUrl,
+                           String description,
+                           Category category) {
+        this.name        = name;
+        this.price       = price;
+        this.stock       = stock;
+        this.photoUrl    = photoUrl;
+        this.description = description;
+        this.category    = category;
     }
 }
