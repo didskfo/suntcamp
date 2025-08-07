@@ -26,7 +26,7 @@ public class ProductController {
         return ResponseDto.success(productService.createProduct(request));
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @Operation(summary = "상품 조회하기")
     public ResponseDto<ProductDto> getProductsById(@RequestParam Long id) {
         return ResponseDto.success(productService.getProduct(id));
