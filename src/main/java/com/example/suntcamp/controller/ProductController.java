@@ -21,6 +21,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/create")
+    @Operation(summary = "상품 생성하기")
     public ResponseDto<ProductDto> createProduct(@RequestBody ProductRequestDto request) {
         return ResponseDto.success(productService.createProduct(request));
     }
@@ -52,6 +53,7 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
+    @Operation(summary = "상품 수정하기")
     public ResponseDto<ProductDto> updateProduct(
             @PathVariable Long id,
             @RequestBody ProductRequestDto request) {
@@ -59,6 +61,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @Operation(summary = "상품 삭제하기")
     public ResponseDto<String> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseDto.success("Product is deleted successfully");
