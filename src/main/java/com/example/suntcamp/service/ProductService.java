@@ -56,6 +56,24 @@ public class ProductService {
                 .build();
     }
 
+    public ProductDto getProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+
+        return ProductDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .stock(product.getStock())
+                .photoUrl(product.getPhotoUrl())
+                .description(product.getDescription())
+                .category(new CategoryDto(
+                        product.getCategory().getId(),
+                        product.getCategory().getName()
+                ))
+                .build();
+    }
+
     @Transactional
     public ProductDto updateProduct(Long id, ProductRequestDto dto) {
         Product product = productRepository.findById(id)

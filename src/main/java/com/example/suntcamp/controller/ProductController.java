@@ -26,6 +26,12 @@ public class ProductController {
     }
 
     @GetMapping
+    @Operation(summary = "상품 조회하기")
+    public ResponseDto<ProductDto> getProductsById(@RequestParam Long id) {
+        return ResponseDto.success(productService.getProduct(id));
+    }
+
+    @GetMapping
     @Operation(summary = "상품 목록 조회하기")
     public ResponseDto<List<ProductDto>> findAll(
             @RequestParam(required = false) Integer minPrice,
