@@ -22,6 +22,18 @@ public class ProductController {
 
     private final ProductService productService;
 
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    // 상품 등록
+    @PostMapping("/create")
+    public ResponseEntity<Product> createProduct(@RequestBody ProductRequestDto request) {
+        Product savedProduct = productService.createProduct(request);
+        return ResponseEntity.ok(savedProduct);
+    }
+
+    // 상품 목록 조회
     @GetMapping
     @Operation(summary = "상품 목록 조회하기")
     public ResponseDto<List<ProductDto>> findAll(
@@ -41,4 +53,20 @@ public class ProductController {
 
         return productService.getAllProducts(criteria);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseDto<Product>> updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductRequestDto request) {
+        Product updated = productService.updateProduct(id, request);
+        return ResponseEntity.ok(ResponseDto.success(updated));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseDto<Void>> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok(ResponseDto.success(null));
+    }
+
+
 }
