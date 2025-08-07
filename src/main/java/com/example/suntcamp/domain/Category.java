@@ -18,4 +18,12 @@ public class Category {
 
     @Column(nullable = false)
     private String name;
+
+    public Category(String catName) {
+        this.name = catName;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
 }

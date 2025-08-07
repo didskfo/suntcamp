@@ -1,16 +1,14 @@
 package com.example.suntcamp.controller;
 
 import com.example.suntcamp.dto.ProductDto;
+import com.example.suntcamp.dto.ProductRequestDto;
 import com.example.suntcamp.dto.ProductSearchCriteria;
 import com.example.suntcamp.dto.ResponseDto;
 import com.example.suntcamp.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,18 +20,11 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
-    // 상품 등록
     @PostMapping("/create")
-    public ResponseEntity<Product> createProduct(@RequestBody ProductRequestDto request) {
-        Product savedProduct = productService.createProduct(request);
-        return ResponseEntity.ok(savedProduct);
+    public ResponseDto<ProductDto> createProduct(@RequestBody ProductRequestDto request) {
+        return ResponseDto.success(productService.createProduct(request));
     }
 
-    // 상품 목록 조회
     @GetMapping
     @Operation(summary = "상품 목록 조회하기")
     public ResponseDto<List<ProductDto>> findAll(
@@ -55,18 +46,15 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDto<Product>> updateProduct(
+    public ResponseDto<ProductDto> updateProduct(
             @PathVariable Long id,
             @RequestBody ProductRequestDto request) {
-        Product updated = productService.updateProduct(id, request);
-        return ResponseEntity.ok(ResponseDto.success(updated));
+        return ResponseDto.success(productService.updateProduct(id, request));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseDto<Void>> deleteProduct(@PathVariable Long id) {
+    public ResponseDto<String> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok(ResponseDto.success(null));
+        return ResponseDto.success("Product is deleted successfully");
     }
-
-
 }
